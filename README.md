@@ -5,7 +5,7 @@ DONE!!
 
 ![Screenshot](screenshot.png)
 
-I created this project while I was filling out the form for [RC](www.recurse.com). It meant to be a simple command line TODO list app.
+I created this project while I was filling out the form for [RC](www.recurse.com). It's a simple command line TODO list app.
 
 ##Installation
 
@@ -31,7 +31,10 @@ done check <task-number>
 done delete <task-number>
 ```
 
-##Ignore the `.json` file
+## Workflow
+* I organise project specific tasks into their corresponding directories. `done` creates a new data file wherever you run it.
+* I put my weekly overall tasks in my home directory and run `done` whenever I open a terminal.
+### Ignore the `.json` file
 A good idea is to add `.database.json` to your `.gitignore` files if your using this in a git project directory.
 
 ##TODO ...yh I know :wink:
