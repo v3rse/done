@@ -34,10 +34,12 @@ done delete <task-number>
 ## Workflow
 * I organise project specific tasks into their corresponding directories. `done` creates a new data file wherever you run it.
 * I put my weekly overall tasks in my home directory and run `done` whenever I open a terminal.
+
 ### Ignore the `.json` file
-A good idea is to add `.database.json` to your `.gitignore` files if your using this in a git project directory.
+A good idea is to add `.database.json` to your `.gitignore` files if you're using this in a git project directory.
 
 ##TODO ...yh I know :wink:
 - [x] Integrate [chroma](https://github.com/v3rse/chroma) (something else I wrote check it out)
 - [ ] Make the installation process better.
+- [ ] Add some git integration. :grin:
 
