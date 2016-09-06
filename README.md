@@ -35,6 +35,6 @@ done delete <task-number>
 A good idea is to add `.database.json` to your `.gitignore` files if your using this in a git project directory.
 
 ##TODO ...yh I know :wink:
-- [ ] Integrate [chroma](https://github.com/v3rse/chroma) (something else I wrote check it out)
+- [x] Integrate [chroma](https://github.com/v3rse/chroma) (something else I wrote check it out)
 - [ ] Make the installation process better.
 

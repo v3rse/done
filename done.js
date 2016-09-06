@@ -6,7 +6,7 @@
 //-delete todo item
 
 var fs = require('fs');
-
+var chroma = require('./lib/chroma.js');
 
 //constants
 var TASK_JSON_PATH = "./.database.json";
@@ -101,13 +101,13 @@ function list() {
 	
 	if(data.length > 0){
 		//print the list. using ANSI colors and formating
-		console.log("\x1b[93m\x1b[4mTask list:\x1b[24m");
+		console.log(chroma.lyellow(chroma.underline("Task list:")));
 		data.forEach(function (task,index){
-			console.log(index+1+"."," ["+(task.completed ? "\x1b[92m✓\x1b[93m" : " ")+"] ",task.task);
+			console.log(chroma.lyellow(index+1+"."),chroma.lyellow(" [")+(task.completed ? chroma.lgreen("✓") : " ")+chroma.lyellow("] "+task.task));
 		});
 		
 	}else{
-		console.log("\x1b[91mNo tasks added!!");
+		console.log(chroma.lred("No tasks added!!"));
 	}
 
 }
@@ -136,7 +136,7 @@ switch(command){
 		list();
 		break;
 	default:
-		console.log("\x1b[91mCommand not found!!\x1b[0m");
+		console.log(chroma.lred("Command not found!!"));
 		usage();
 		break;
 }
