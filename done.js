@@ -6,7 +6,7 @@
 //-delete todo item
 
 var fs = require('fs');
-var chroma = require('./lib/chroma.js');
+var chroma = require('@v3rse/chroma');
 
 //constants
 var TASK_JSON_PATH = "./.database.json";
@@ -101,7 +101,7 @@ function list() {
 	
 	if(data.length > 0){
 		//print the list. using ANSI colors and formating
-		console.log(chroma.lyellow(chroma.underline("Task list:")));
+		console.log(chroma.underline.lyellow("Task list:"));
 		data.forEach(function (task,index){
 			console.log(chroma.lyellow(index+1+"."),chroma.lyellow(" [")+(task.completed ? chroma.lgreen("✓") : " ")+chroma.lyellow("] "+task.task));
 		});
