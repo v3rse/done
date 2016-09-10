@@ -1,0 +1,31 @@
+{
+  "name": "@v3rse/done",
+  "version": "1.0.0",
+  "description": "Command line TODO list app",
+  "main": "done.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/v3rse/done.git"
+  },
+  "keywords": [
+    "todo",
+    "terminal",
+    "command-line",
+    "text",
+    "xterm",
+    "tty"
+  ],
+  "contributors": [
+    "Nana Adane <nanaofosuheneadane@gmail.com> (http://www.nanaadane.com)",
+    "David Oddoye <oddoyeravid@gmail.com> ()"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/v3rse/done/issues"
+  },
+  "homepage": "https://github.com/v3rse/done#readme",
+  "dependencies": {
+    "@v3rse/chroma": "^1.1.0",
+    "moment": "^2.14.1"
+  }
+}
