@@ -107,7 +107,7 @@ function list() {
 		});
 		
 	}else{
-		console.log(chroma.lred("No tasks added!!"));
+		console.log(chroma.bgred(chroma.black("No tasks added!!")));
 	}
 
 }
@@ -136,7 +136,7 @@ switch(command){
 		list();
 		break;
 	default:
-		console.log(chroma.lred("Command not found!!"));
+		console.log(chroma.bgred(chroma.black("Command not found!!")));
 		usage();
 		break;
 }
