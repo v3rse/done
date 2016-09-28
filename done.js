@@ -47,7 +47,7 @@ function setData(data) {
 
 //Displays usage
 function usage() {
-	console.log("Usage: done [add|check|delete|help|list [all|done]] [task]");
+	console.log("Usage: done [add|check|delete|help|clear [all|done]|list [all|done]] [task]");
 	console.log("`task` is only a string when using `add` and a number\nfor all other commands.");
 	console.log("Using the `done` without arguments lists all tasks");
 }
@@ -122,6 +122,45 @@ function del(task) {
 	list();
 }
 
+//Clear all pending task from the list
+function clear() {
+	var data = getData();
+
+	if(data.uncompleted){
+		data.uncompleted = [];
+		setData(data);
+		displayError("All pending tasks cleared");
+	}else{
+		displayError("No tasks present!!");
+	}
+
+}
+
+//Clear all completed task from the list
+function clearDone() {
+	var data = getData();
+
+	if(data.completed){
+		data.completed = [];
+		setData(data);
+		displayError("All completed tasks cleared");
+	}else{
+		displayError("No tasks present!!");
+	}
+}
+
+//Clear all task from the list
+function clearAll() {
+	var data = getData();
+	if(data.uncompleted || data.completed){
+		data.uncompleted = [];
+		data.completed = [];
+		setData(data);
+		displayError("All tasks cleared");
+	}else{
+		displayError("No tasks present!!");
+	}
+}
 
 
 //Lists all pending tasks
@@ -137,7 +176,7 @@ function list(){
 
 
 
-//Lists all pending tasks
+//Lists all completed tasks
 function listCompleted(){
         var data = getData();
 
@@ -148,9 +187,6 @@ function listCompleted(){
 	}
 }
 
-
-
-//Lists all completed tasks
 
 
 //Lists all tasks
@@ -170,6 +206,8 @@ function listAll() {
 	}
 
 }
+
+
 
 //Utils
 
@@ -220,6 +258,15 @@ switch (command) {
 		break;
 	case "help":
 		usage();
+		break;
+	case "clear":
+		if(argument == "all"){
+			clearAll();
+		}else if(argument == "done"){
+			clearDone();
+		}else{
+			clear();
+		}
 		break;
 	case "list":
 		if(argument == "all"){
