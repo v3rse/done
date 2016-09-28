@@ -1,18 +1,12 @@
-//This is a simple command line todo list app
-//Features
-//-create todo item
-//-list todo item
-//-check todo item off list
-//-delete todo item
-
 var fs = require('fs');
 var chroma = require('@v3rse/chroma');
 var moment = require('moment');
-
-//constants
+//Path to task json file
 var TASK_JSON_PATH = "./.database.json";
 
 
+
+//Creates a file for keeping track of tasks
 function init() {
 	//create file if it's present.
 	if (!fs.existsSync(TASK_JSON_PATH)) {
@@ -25,6 +19,9 @@ function init() {
 
 }
 
+
+
+//Used to read some data from the JSON file
 function getData() {
 	//read file contents
 	var contents = fs.readFileSync(TASK_JSON_PATH);
@@ -36,23 +33,28 @@ function getData() {
 }
 
 
+
+//Used to write data to the JSON file
 function setData(data) {
-	//strigify JSON
+	// makes the object a JSON string
 	var dataString = JSON.stringify(data);
 
 	//write to  file
-
 	fs.writeFileSync(TASK_JSON_PATH, dataString);
 }
 
-//display usage
+
+
+//Displays usage
 function usage() {
 	console.log("Usage: done [add|check|delete|help] [task]");
 	console.log("`task` is only a string when using `add` and a number\nfor all other commands.");
 	console.log("Using the `done` without arguments lists all tasks");
 }
 
-//add task
+
+
+//Adds a task
 function add(task) {
 	//get data
 	var data = getData();
@@ -70,7 +72,9 @@ function add(task) {
 	list();
 }
 
-//check task
+
+
+//Moves task from uncompleted task list to completed task list
 function check(task) {
 	//get data
 	var data = getData();
@@ -78,7 +82,7 @@ function check(task) {
 	//modify the data
 	data.uncompleted[task].dateCompleted = Date.now();
 
-	//add to completed tasks
+	//move to completed tasks
 	data.completed.push(
 		data.uncompleted[task]
 	);
@@ -93,7 +97,9 @@ function check(task) {
 	list();
 }
 
-//delete task
+
+
+//Remove uncompleted task from the list.
 function del(task) {
 	//get data
 	var data = getData();
@@ -108,7 +114,10 @@ function del(task) {
 	list();
 }
 
-//list all tasks
+
+
+
+//Lists all tasks
 function list() {
 
 	//data
