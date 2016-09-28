@@ -79,19 +79,24 @@ function check(task) {
 	//get data
 	var data = getData();
 
-	//modify the data
-	data.uncompleted[task].dateCompleted = Date.now();
+	if(data.uncompleted[task]){
+		//modify the data
+		data.uncompleted[task].dateCompleted = Date.now();
 
-	//move to completed tasks
-	data.completed.push(
-		data.uncompleted[task]
-	);
+		//move to completed tasks
+		data.completed.push(
+			data.uncompleted[task]
+		);
 
-	//remove from uncompleted
-	data.uncompleted.splice(task, task + 1);
+		//remove from uncompleted
+		data.uncompleted.splice(task, task + 1);
 
-	//set data
-	setData(data);
+		//set data
+		setData(data);
+	}else{
+		displayError("No such task");
+	}
+	
 
 	//list
 	list();
@@ -104,12 +109,15 @@ function del(task) {
 	//get data
 	var data = getData();
 
-	//delete item
-	data.uncompleted.splice(task, task + 1);
+	if(data.uncompleted[task]){
+		//delete item
+		data.uncompleted.splice(task, task + 1);
 
-	//set data
-	setData(data);
-
+		//set data
+		setData(data);
+	}else{
+		displayError("No such task");
+	}
 	//list
 	list();
 }
@@ -141,13 +149,19 @@ function list() {
 			});
 		}
 	} else {
-		console.log(chroma.bgred(chroma.black("No tasks added!!")));
+		displayError("No tasks added!!");
 	}
 
 }
 
+//Utils
+function displayError(string){
+	console.log(chroma.bgred(chroma.black(string)));
+}
 
 
+
+//Entry point
 var command = process.argv[2];
 var argument = process.argv[3];
 
@@ -170,7 +184,7 @@ switch (command) {
 		list();
 		break;
 	default:
-		console.log(chroma.bgred(chroma.black("Command not found!!")));
+		displayError("Command not found!!");
 		usage();
 		break;
 }
