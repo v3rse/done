@@ -220,9 +220,9 @@ function displayError(string){
 function printUncompleted(data){
 	if (data.uncompleted.length) {
 		//print the uncompleted list. using ANSI colors and formating
-		console.log(chroma.bgred("Pending:"));
+		console.log(chroma.underline.bgred("Pending:"));
 		data.uncompleted.forEach(function (task, index) {
-			console.log("\t",chroma.lred(index + 1 + ". [ ✖ ]"),chroma.italics.lyellow(" (Added " + moment(task.dateCreated).fromNow() + " ) "),task.task);
+			console.log("\t",chroma.lyellow(index + 1 + ". ["),chroma.lred("✖"),chroma.lyellow("] "),chroma.italics.lblue(" ( Added " + moment(task.dateCreated).fromNow() + " ) "),task.task);
 		});
 	}
 }
@@ -233,9 +233,9 @@ function printUncompleted(data){
 function printCompleted(data){
 	if (data.completed.length) {
 				//print the uncompleted list. using ANSI colors and formating
-				console.log(chroma.bggreen("Completed:"));
+				console.log(chroma.underline.bggreen("Completed:"));
 				data.completed.forEach(function (task, index) {
-					console.log("\t",chroma.lgreen(index + 1 + ". [ ✓ ] "),chroma.italics.lyellow(" ( " + moment(task.dateCompleted).fromNow() + " )"),chroma.strikethrough(task.task));
+					console.log("\t",chroma.lyellow(index + 1 + ". ["),chroma.lgreen("✓"),chroma.lyellow("] "),chroma.italics.lblue(" ( " + moment(task.dateCompleted).fromNow() + " )"),chroma.strikethrough(task.task));
 				});
 			}
 }
