@@ -220,9 +220,9 @@ function displayError(string){
 function printUncompleted(data){
 	if (data.uncompleted.length) {
 		//print the uncompleted list. using ANSI colors and formating
-		console.log(chroma.underline.lyellow("Uncompleted Task list:"));
+		console.log(chroma.bgred("Pending:"));
 		data.uncompleted.forEach(function (task, index) {
-			console.log(chroma.lyellow(index + 1 + "."), task.task + "\t" + chroma.italics.bgblue("Added " + moment(task.dateCreated).fromNow()));
+			console.log("\t",chroma.lred(index + 1 + ". [ ✖ ]"),chroma.italics.lyellow(" (Added " + moment(task.dateCreated).fromNow() + " ) "),task.task);
 		});
 	}
 }
@@ -233,9 +233,9 @@ function printUncompleted(data){
 function printCompleted(data){
 	if (data.completed.length) {
 				//print the uncompleted list. using ANSI colors and formating
-				console.log(chroma.underline.lyellow("Completed Task list:"));
+				console.log(chroma.bggreen("Completed:"));
 				data.completed.forEach(function (task, index) {
-					console.log(chroma.strikethrough.lgreen(index + 1 + ". " + task.task),chroma.italics.bgblue("\tCompleted " + moment(task.dateCompleted).fromNow()));
+					console.log("\t",chroma.lgreen(index + 1 + ". [ ✓ ] "),chroma.italics.lyellow(" ( " + moment(task.dateCompleted).fromNow() + " )"),chroma.strikethrough(task.task));
 				});
 			}
 }
