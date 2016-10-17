@@ -40,8 +40,3 @@ done delete <task-number>
 ### Ignore the `.json` file
 A good idea is to add `.database.json` to your `.gitignore` files if you're using this in a git project directory.
 
-##TODO ...yh I know :wink:
-- [x] Integrate [chroma](https://github.com/v3rse/chroma) (something else I wrote check it out)
-- [ ] Make the installation process better.
-- [ ] Add some git integration. :grin:
-
