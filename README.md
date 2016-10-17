@@ -40,3 +40,9 @@ done delete <task-number>
 ### Ignore the `.json` file
 A good idea is to add `.database.json` to your `.gitignore` files if you're using this in a git project directory.
 
+## Contribute
+Check out the [issues](https://github.com/v3rse/done/issues).
+
+If you don't want to contribute code you could also contribute thought :neckbeard: [here](https://github.com/v3rse/done/issues/2).
+
+Follow the __Installation__ instructions to get the code on your computer.
