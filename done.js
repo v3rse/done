@@ -1,9 +1,10 @@
 var fs = require('fs');
 var chroma = require('@v3rse/chroma');
 var moment = require('moment');
+var fileSearch = require('./lib/file-search');
 //Path to task json file
 var TASK_JSON_PATH = "./.database.json";
-
+var todoMatch = /[\/\/|\#]\s*?TODO/i;
 
 
 //Creates a file for keeping track of tasks
@@ -47,7 +48,7 @@ function setData(data) {
 
 //Displays usage
 function usage() {
-	console.log("Usage: done [add|check|delete|help|clear [all|done]|list [all|done]] [task]");
+	console.log("Usage: done [add|check|delete] task|help|clear [all|done]|list [all|done]|triage [file]");
 	console.log("`task` is only a string when using `add` and a number\nfor all other commands.");
 	console.log("Using the `done` without arguments lists all tasks");
 }
@@ -68,8 +69,6 @@ function add(task) {
 	//set data
 	setData(data);
 
-	//list
-	list();
 }
 
 
@@ -98,8 +97,6 @@ function check(task) {
 	}
 	
 
-	//list
-	list();
 }
 
 
@@ -118,8 +115,6 @@ function del(task) {
 	}else{
 		displayError("No such task");
 	}
-	//list
-	list();
 }
 
 //Clear all pending task from the list
@@ -240,6 +235,18 @@ function printCompleted(data){
 			}
 }
 
+//Triage
+function triage(file){
+	if(fs.lstatSync(file).isFile){
+		var tasks = fileSearch.tagSearchSync(file,todoMatch);	
+		tasks.forEach(function(t){
+			add(t);
+		});
+	}else{
+		displayError("Not a file");
+	}
+}
+
 //Entry point
 var command = process.argv[2];
 var argument = process.argv[3];
@@ -249,15 +256,22 @@ init();
 switch (command) {
 	case "add":
 		add(argument);
+		list();
 		break;
 	case "check":
 		check(argument - 1);
+		list();
 		break;
 	case "delete":
 		del(argument - 1);
+		list();
 		break;
 	case "help":
 		usage();
+		break;
+	case "triage":
+		triage(argument);
+		list();
 		break;
 	case "clear":
 		if(argument == "all"){
