@@ -237,7 +237,7 @@ function printCompleted(data){
 
 //Triage
 function triage(file){
-	if(fs.lstatSync(file).isFile){
+	if(fs.lstatSync(file).isFile()){
 		var tasks = fileSearch.tagSearchSync(file,todoMatch);	
 		tasks.forEach(function(t){
 			add(t);
