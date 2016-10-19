@@ -13,7 +13,8 @@ I created this project while I was filling out the form for [RC](www.recurse.com
 git clone https://github.com/v3rse/done.git <path-to-done>
 cd <path-to-done>
 npm install
-alias done="<path-to-done>"
+#put this in your bash-profile file
+alias done="node <path-to-done>"
 ```
 Where `<path-to-done>` is where you want `done` to live
 
