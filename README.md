@@ -1,4 +1,4 @@
-DONE!!
+DONE!! [![Code Triagers Badge](https://www.codetriage.com/v3rse/done/badges/users.svg)](https://www.codetriage.com/v3rse/done)
 ---
 
 ##Intro
