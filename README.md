@@ -1,13 +1,13 @@
 DONE!! [![Code Triagers Badge](https://www.codetriage.com/v3rse/done/badges/users.svg)](https://www.codetriage.com/v3rse/done)
 ---
 
-##Intro
+## Intro
 
 ![Screenshot](screenshot.png)
 
 I created this project while I was filling out the form for [RC](www.recurse.com). It's a simple command line TODO list app.
 
-##Installation
+## Installation
 
 ```bash
 git clone https://github.com/v3rse/done.git <path-to-done>
@@ -18,7 +18,7 @@ alias done="node <path-to-done>"
 ```
 Where `<path-to-done>` is where you want `done` to live
 
-##Usage
+## Usage
 
 ```bash
 #add a task
