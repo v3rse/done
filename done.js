@@ -3,7 +3,7 @@ var chroma = require('@v3rse/chroma');
 var moment = require('moment');
 //Path to task json file
 var TASK_JSON_PATH = "./.database.json";
-const exec = require('child_process');
+const exec = require('child_process').exec;
 
 
 //Creates a file for keeping track of tasks
@@ -233,7 +233,7 @@ function gitCommit() {
         return;
     }
     const task = process.argv[5] - 1;
-    if (!task) {
+    if (task == undefined) {
         displayError("Git commit message and task number required!");
         return;
     }
@@ -244,11 +244,21 @@ function gitCommit() {
         // Run git commit on escaped string
         exec('git commit -m \"' + message.replace(/"/g, '\\"') + "\"", function (err, stdout, stderr) {
             if (err) {
+                console.log(err);
+                console.log("\n");
+                console.log(stdout)
                 displayError("Unable to commit to git!");
                 // node couldn't execute the command
                 return;
             }
-            console.log("Committed to git with SHA");
+            if (stdout.startsWith("On branch")) {
+                displayError("Git commit not possible - did you add files and include a message?");
+                return;
+            }
+            var shaRegex = /^\[(.*) (.*)\]/gm;
+            var arr = shaRegex.exec(stdout);
+            const commitSha = arr[1];
+            console.log("Committed to git with SHA " + commitSha);
         });
 
     } else {
