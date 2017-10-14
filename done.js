@@ -244,28 +244,24 @@ function gitCommit() {
         // Run git commit on escaped string
         exec('git commit -m \"' + message.replace(/"/g, '\\"') + "\"", function (err, stdout, stderr) {
             if (err) {
-                console.log(err);
-                console.log("\n");
-                console.log(stdout)
-                displayError("Unable to commit to git!");
-                // node couldn't execute the command
+                displayError("Git commit not possible - did you add files and include a message?");
                 return;
             }
             if (stdout.startsWith("On branch")) {
                 displayError("Git commit not possible - did you add files and include a message?");
-                return;
             }
             var shaRegex = /^\[(.*) (.*)\]/gm;
             var arr = shaRegex.exec(stdout);
-            const commitSha = arr[1];
+            const commitSha = arr[2];
             console.log("Committed to git with SHA " + commitSha);
+            data.uncompleted[task].commit = commitSha;
+            setData(data);
+            console.log("Saved commit to task " + task);
         });
 
     } else {
         displayError("No such task");
     }
-    //list
-    list();
 }
 
 function processGit() {
