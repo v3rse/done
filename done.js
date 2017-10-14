@@ -288,7 +288,8 @@ function printUncompleted(data) {
         //print the uncompleted list. using ANSI colors and formatting
         console.log(chroma.underline.bgred("Pending:"));
         data.uncompleted.forEach(function (task, index) {
-            console.log("\t", chroma.lyellow(index + 1 + ". ["), chroma.lred("✖"), chroma.lyellow("] "), chroma.italics.lblue(" ( Added " + moment(task.dateCreated).fromNow() + " ) "), task.task);
+            const commit = task.commit || "";
+            console.log("\t", chroma.lyellow(index + 1 + ". ["), chroma.lred("✖"), chroma.lyellow("] "), chroma.italics.lblue(" ( Added " + moment(task.dateCreated).fromNow() + " ) "), task.task, chroma.lmagenta(commit));
         });
     }
 }
@@ -315,7 +316,8 @@ function printCompleted(data) {
         //print the uncompleted list. using ANSI colors and formatting
         console.log(chroma.underline.bggreen("Completed:"));
         data.completed.forEach(function (task, index) {
-            console.log("\t", chroma.lyellow(index + 1 + ". ["), chroma.lgreen("✓"), chroma.lyellow("] "), chroma.italics.lblue(" ( " + moment(task.dateCompleted).fromNow() + " )"), chroma.strikethrough(task.task));
+            const commit = task.commit || "";
+            console.log("\t", chroma.lyellow(index + 1 + ". ["), chroma.lgreen("✓"), chroma.lyellow("] "), chroma.italics.lblue(" ( " + moment(task.dateCompleted).fromNow() + " )"), chroma.strikethrough(task.task), chroma.lmagenta(commit));
         });
     }
 }
