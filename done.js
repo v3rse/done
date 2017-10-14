@@ -243,20 +243,27 @@ function gitCommit() {
     if (data.uncompleted[task]) {
         // Run git commit on escaped string
         exec('git commit -m \"' + message.replace(/"/g, '\\"') + "\"", function (err, stdout, stderr) {
+            // If the process had an error (probably because nothing had been added with git add)
             if (err) {
                 displayError("Git commit not possible - did you add files and include a message?");
                 return;
             }
+            // If nothing had been added with git add
             if (stdout.startsWith("On branch")) {
                 displayError("Git commit not possible - did you add files and include a message?");
             }
+
+            // extract sha1 hash
             var shaRegex = /^\[(.*) (.*)\]/gm;
             var arr = shaRegex.exec(stdout);
             const commitSha = arr[2];
+            //Alert the git commit has been created
             console.log("Committed to git with SHA " + commitSha);
             data.uncompleted[task].commit = commitSha;
+
+            //save data
             setData(data);
-            console.log("Saved commit to task " + task+1);
+            console.log("Saved commit to task " + task + 1);
         });
 
     } else {
@@ -266,12 +273,15 @@ function gitCommit() {
 
 function processGit() {
     switch (argument) {
+        // just done git
         case undefined:
             listAll();
             break;
+        // Create commit
         case "commit":
             gitCommit();
             break;
+        // Add db to gitignore
         case "init":
             gitInit();
             break;
