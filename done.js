@@ -268,6 +268,7 @@ function processGit() {
     switch (argument) {
         case undefined:
             gitInit();
+            listAll();
             break;
         case "commit":
             gitCommit();
