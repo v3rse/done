@@ -256,7 +256,7 @@ function gitCommit() {
             console.log("Committed to git with SHA " + commitSha);
             data.uncompleted[task].commit = commitSha;
             setData(data);
-            console.log("Saved commit to task " + task);
+            console.log("Saved commit to task " + task+1);
         });
 
     } else {
@@ -267,11 +267,13 @@ function gitCommit() {
 function processGit() {
     switch (argument) {
         case undefined:
-            gitInit();
             listAll();
             break;
         case "commit":
             gitCommit();
+            break;
+        case "init":
+            gitInit();
             break;
     }
 }

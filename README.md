@@ -32,6 +32,15 @@ done check <task-number>
 
 #delete a task
 done delete <task-number>
+
+#add .database.json to git ignore
+done git init
+
+# List all uncompleted task and their respective commits
+done git 
+
+# Commit to git and assign that commit to a task
+done git commit <task> <message>
 ```
 
 ## Workflow
