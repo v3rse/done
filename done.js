@@ -3,6 +3,7 @@ var chroma = require('@v3rse/chroma');
 var moment = require('moment');
 //Path to task json file
 var TASK_JSON_PATH = "./.database.json";
+const exec = require('child_process');
 
 
 //Creates a file for keeping track of tasks
@@ -187,10 +188,14 @@ function listAll() {
     var data = getData();
 
     if (data.uncompleted.length || data.completed.length) {
-
-        printUncompleted(data);
-        console.log("\n");
-        printCompleted(data);
+        // Better null checking
+        if (data.uncompleted.length) {
+            printUncompleted(data);
+        }
+        if (data.completed.length) {
+            console.log("\n");
+            printCompleted(data);
+        }
 
     } else {
         displayError("No tasks added!!");
@@ -198,6 +203,71 @@ function listAll() {
 
 }
 
+// Initalizes git integration
+function gitInit() {
+    // If we're not currently in  a git repository, exit
+    if (!fs.existsSync('.git')) {
+        displayError("Not currently in a git repository!");
+        return;
+    }
+    checkForFile('.gitignore', function () {
+        // Read in gitignore, add .database.json if not already present
+        var gitignore = fs.readFileSync('.gitignore', 'utf8');
+        if (gitignore.indexOf('.database.json') == -1) {
+            fs.appendFile('.gitignore', '\n.database.json\n', function (err) {
+                if (err) {
+                    displayError("Error modifying gitignore!");
+                    return;
+                }
+                console.log("Git integration complete");
+            });
+        }
+    });
+}
+
+function gitCommit() {
+
+    const message = process.argv[4];
+    if (!message) {
+        displayError("Git commit message required!");
+        return;
+    }
+    const task = process.argv[5] - 1;
+    if (!task) {
+        displayError("Git commit message and task number required!");
+        return;
+    }
+    //get data
+    var data = getData();
+
+    if (data.uncompleted[task]) {
+        // Run git commit on escaped string
+        exec('git commit -m \"' + message.replace(/"/g, '\\"') + "\"", function (err, stdout, stderr) {
+            if (err) {
+                displayError("Unable to commit to git!");
+                // node couldn't execute the command
+                return;
+            }
+            console.log("Committed to git with SHA");
+        });
+
+    } else {
+        displayError("No such task");
+    }
+    //list
+    list();
+}
+
+function processGit() {
+    switch (argument) {
+        case undefined:
+            gitInit();
+            break;
+        case "commit":
+            gitCommit();
+            break;
+    }
+}
 
 //Utils
 
@@ -209,7 +279,7 @@ function displayError(string) {
 //Prints pending tasks
 function printUncompleted(data) {
     if (data.uncompleted.length) {
-        //print the uncompleted list. using ANSI colors and formating
+        //print the uncompleted list. using ANSI colors and formatting
         console.log(chroma.underline.bgred("Pending:"));
         data.uncompleted.forEach(function (task, index) {
             console.log("\t", chroma.lyellow(index + 1 + ". ["), chroma.lred("✖"), chroma.lyellow("] "), chroma.italics.lblue(" ( Added " + moment(task.dateCreated).fromNow() + " ) "), task.task);
@@ -217,11 +287,26 @@ function printUncompleted(data) {
     }
 }
 
+//checks if the file exists.
+//If it does, it just calls back.
+//If it doesn't, then the file is created.
+// credit to https://stackoverflow.com/questions/12899061/creating-a-file-only-if-it-doesnt-exist-in-node-js
+function checkForFile(fileName, callback) {
+    fs.exists(fileName, function (exists) {
+        if (exists) {
+            callback();
+        } else {
+            fs.writeFile(fileName, {flag: 'wx'}, function (err, data) {
+                callback();
+            });
+        }
+    });
+}
 
 //Prints completed tasks
 function printCompleted(data) {
     if (data.completed.length) {
-        //print the uncompleted list. using ANSI colors and formating
+        //print the uncompleted list. using ANSI colors and formatting
         console.log(chroma.underline.bggreen("Completed:"));
         data.completed.forEach(function (task, index) {
             console.log("\t", chroma.lyellow(index + 1 + ". ["), chroma.lgreen("✓"), chroma.lyellow("] "), chroma.italics.lblue(" ( " + moment(task.dateCompleted).fromNow() + " )"), chroma.strikethrough(task.task));
@@ -247,6 +332,9 @@ switch (command) {
         break;
     case "help":
         usage();
+        break;
+    case "git":
+        processGit();
         break;
     case "clear":
         if (argument == "all") {
